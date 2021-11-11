@@ -14,7 +14,7 @@ class Movie {
 
   Movie.fromJson(Map<String, Object?> json)
       : this(
-          genre: (json['genre']! as List).cast<String>(),
+          genre: json['genre']! as String,
           likes: json['likes']! as int,
           poster: json['poster']! as String,
           rated: json['rated']! as String,
@@ -29,7 +29,7 @@ class Movie {
   final int year;
   final String runtime;
   final String rated;
-  final List<String> genre;
+  final String genre;
 
   Map<String, Object?> toJson() {
     return {

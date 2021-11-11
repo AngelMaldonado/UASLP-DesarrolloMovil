@@ -263,30 +263,22 @@ class _MovieItem extends StatelessWidget {
   }
 
   /// Returns a list of genre movie tags.
-  List<Widget> get genreItems {
-    return [
-      for (final genre in movie.genre)
-        Padding(
-          padding: const EdgeInsets.only(right: 2),
-          child: Chip(
-            backgroundColor: Colors.lightBlue,
-            label: Text(
-              genre,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        )
-    ];
+  Widget get genreItems {
+    return Padding(
+      padding: const EdgeInsets.only(right: 2),
+      child: Chip(
+        backgroundColor: Colors.lightBlue,
+        label: Text(
+          movie.genre,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 
   /// Returns all genres.
   Widget get genres {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Wrap(
-        children: genreItems,
-      ),
-    );
+    return Padding(padding: const EdgeInsets.only(top: 8), child: genreItems);
   }
 
   @override
