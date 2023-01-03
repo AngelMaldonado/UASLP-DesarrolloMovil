@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class WScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //debugShowCheckedModeBanner: false
     return MaterialApp(
+      // hide debug banner
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Hello Flutter App"),
-          leading: Icon(Icons.home),
+          title: const Text("Hello Flutter App"),
+          leading: const Icon(Icons.home),
           actions: <Widget>[
-            IconButton(onPressed: (){}, icon: Icon(Icons.refresh))
+            IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
           ],
         ),
         body: const Center(
