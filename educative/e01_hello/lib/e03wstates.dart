@@ -36,7 +36,10 @@ class _WStatesState extends State<WStates> {
         body: Center(
           child: Text(
             displayText,
-            style: const TextStyle(fontSize: 32),
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
