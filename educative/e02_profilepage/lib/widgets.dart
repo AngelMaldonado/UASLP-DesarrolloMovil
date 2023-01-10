@@ -1,5 +1,86 @@
 import 'package:flutter/material.dart';
 
+Widget buildBodyWidget() {
+  return ListView(
+    children: <Widget>[
+      Column(
+        children: <Widget>[
+          SizedBox(
+            width: double.infinity,
+            height: 250,
+            child: Image.network(
+              "https://avatars.githubusercontent.com/u/45006558?v=4",
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Angel Maldonado",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(
+            color: Colors.grey,
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 8, bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                buildCallButton(),
+                buildTextButton(),
+                buildVideoCallButton(),
+                buildEmailButton(),
+                buildDirectionsButton(),
+                buildPayButton(),
+              ],
+            ),
+          ),
+          const Divider(
+            color: Colors.grey,
+          ),
+          mobilePhoneListTile(),
+          otherPhoneListTile(),
+          const Divider(
+            color: Colors.grey,
+          ),
+          emailListTile(),
+          const Divider(
+            color: Colors.grey,
+          ),
+          addressListTile(),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget buildAppBarWidget() {
+  return AppBar(
+    //backgroundColor: Colors.white,
+    leading: const Icon(
+      Icons.arrow_back,
+    ),
+    actions: <Widget>[
+      IconButton(
+        onPressed: () {
+          print("Contact is starred!");
+        },
+        icon: const Icon(Icons.star_border),
+      ),
+    ],
+  );
+}
+
 Widget buildCallButton() {
   return Column(
     children: <Widget>[
@@ -7,7 +88,6 @@ Widget buildCallButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.call,
-          color: Colors.indigo,
         ),
       ),
       const Text("Call"),
@@ -22,7 +102,6 @@ Widget buildTextButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.message,
-          color: Colors.indigo,
         ),
       ),
       const Text("Text"),
@@ -37,7 +116,6 @@ Widget buildVideoCallButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.video_call,
-          color: Colors.indigo,
         ),
       ),
       const Text("Video"),
@@ -52,7 +130,6 @@ Widget buildEmailButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.email,
-          color: Colors.indigo,
         ),
       ),
       const Text("Email")
@@ -67,7 +144,6 @@ Widget buildDirectionsButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.directions,
-          color: Colors.indigo,
         ),
       ),
       const Text("Directions"),
@@ -82,7 +158,6 @@ Widget buildPayButton() {
         onPressed: () {},
         icon: const Icon(
           Icons.payment,
-          color: Colors.indigo,
         ),
       ),
       const Text("Pay"),
@@ -97,7 +172,6 @@ Widget mobilePhoneListTile() {
     subtitle: const Text("mobile"),
     trailing: IconButton(
       icon: const Icon(Icons.message),
-      color: Colors.indigo,
       onPressed: () {},
     ),
   );
@@ -110,7 +184,6 @@ Widget otherPhoneListTile() {
     subtitle: const Text("mobile"),
     trailing: IconButton(
       icon: const Icon(Icons.message),
-      color: Colors.indigo,
       onPressed: () {},
     ),
   );
@@ -131,7 +204,6 @@ Widget addressListTile() {
     subtitle: const Text("home"),
     trailing: IconButton(
       icon: const Icon(Icons.directions),
-      color: Colors.indigo,
       onPressed: () {},
     ),
   );
