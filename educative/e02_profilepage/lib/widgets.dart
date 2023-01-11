@@ -33,16 +33,13 @@ Widget buildBodyWidget() {
           ),
           Container(
             margin: const EdgeInsets.only(top: 8, bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                buildCallButton(),
-                buildTextButton(),
-                buildVideoCallButton(),
-                buildEmailButton(),
-                buildDirectionsButton(),
-                buildPayButton(),
-              ],
+            child: Theme(
+              data: ThemeData(
+                iconTheme: const IconThemeData(
+                  color: Colors.orange,
+                ),
+              ),
+              child: profileActionItems(),
             ),
           ),
           const Divider(
@@ -60,6 +57,20 @@ Widget buildBodyWidget() {
           addressListTile(),
         ],
       ),
+    ],
+  );
+}
+
+Widget profileActionItems() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: <Widget>[
+      buildCallButton(),
+      buildTextButton(),
+      buildVideoCallButton(),
+      buildEmailButton(),
+      buildDirectionsButton(),
+      buildPayButton(),
     ],
   );
 }
