@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:e02_profilepage/widgets.dart';
+import 'package:e02_profilepage/themes.dart';
 
 void main() => runApp(ContactProfilePage());
 
@@ -8,18 +9,7 @@ class ContactProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        appBarTheme: const AppBarTheme(
-          color: Colors.white,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-        ),
-        iconTheme: const IconThemeData(
-          color: Colors.indigo,
-        ),
-      ),
+      theme: MyAppThemes.appThemeLight(),
       home: Scaffold(
         appBar: AppBar(
           //backgroundColor: Colors.white,
