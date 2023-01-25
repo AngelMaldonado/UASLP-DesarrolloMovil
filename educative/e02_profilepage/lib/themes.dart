@@ -11,4 +11,15 @@ class MyAppThemes {
       iconTheme: const IconThemeData(color: Colors.indigo),
     );
   }
+
+  static ThemeData appThemeDark() {
+    return ThemeData(
+      brightness: Brightness.dark,
+      iconTheme: const IconThemeData(color: Colors.orange),
+      appBarTheme: const AppBarTheme(
+        color: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+    );
+  }
 }
