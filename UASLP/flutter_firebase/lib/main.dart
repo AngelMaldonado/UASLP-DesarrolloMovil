@@ -1,31 +1,23 @@
-// Copyright 2020, the Chromium project authors.  Please see the AUTHORS file
+// ignore_for_file: prefer_const_constructors_in_immutables,unnecessary_const,library_private_types_in_public_api,avoid_print
+// Copyright 2021, the Chromium project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:flutter_firebase/movie.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-/// Requires that a Firestore emulator is running locally.
-/// See https://firebase.flutter.dev/docs/firestore/usage#emulator-usage
-bool USE_FIRESTORE_EMULATOR = false;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  if (USE_FIRESTORE_EMULATOR) {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  }
-  runApp(const FirestoreExampleApp());
+  await Firebase.initializeApp(options: defaultFirebaseOptions);
+  runApp(FirestoreExampleApp());
 }
 
 /// A reference to the list of movies.
 /// We are using `withConverter` to ensure that interactions with the collection
 /// are type-safe.
 final moviesRef = FirebaseFirestore.instance
-    .collection('firestore-example-app')
+    .collection('firebase-demo-moview')
     .withConverter<Movie>(
       fromFirestore: (snapshots, _) => Movie.fromJson(snapshots.data()!),
       toFirestore: (movie, _) => movie.toJson(),
@@ -68,8 +60,6 @@ extension on Query<Movie> {
 ///
 /// Returns a [MaterialApp].
 class FirestoreExampleApp extends StatelessWidget {
-  const FirestoreExampleApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -110,7 +100,7 @@ class _FilmListState extends State<FilmList> {
               builder: (context, _) {
                 return Text(
                   'Latest Snapshot: ${DateTime.now()}',
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                 );
               },
             )
@@ -204,7 +194,7 @@ class _FilmListState extends State<FilmList> {
 
 /// A single movie row.
 class _MovieItem extends StatelessWidget {
-  const _MovieItem(this.movie, this.reference);
+  _MovieItem(this.movie, this.reference);
 
   final Movie movie;
   final DocumentReference<Movie> reference;
@@ -213,9 +203,7 @@ class _MovieItem extends StatelessWidget {
   Widget get poster {
     return SizedBox(
       width: 100,
-      child: Center(
-        child: Image.network(movie.poster),
-      ),
+      child: Image.network(movie.poster),
     );
   }
 
@@ -250,7 +238,8 @@ class _MovieItem extends StatelessWidget {
   Widget get metadata {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 8),
@@ -263,22 +252,30 @@ class _MovieItem extends StatelessWidget {
   }
 
   /// Returns a list of genre movie tags.
-  Widget get genreItems {
-    return Padding(
-      padding: const EdgeInsets.only(right: 2),
-      child: Chip(
-        backgroundColor: Colors.lightBlue,
-        label: Text(
-          movie.genre,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-    );
+  List<Widget> get genreItems {
+    return [
+      for (final genre in movie.genre)
+        Padding(
+          padding: const EdgeInsets.only(right: 2),
+          child: Chip(
+            backgroundColor: Colors.lightBlue,
+            label: Text(
+              genre,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        )
+    ];
   }
 
   /// Returns all genres.
   Widget get genres {
-    return Padding(padding: const EdgeInsets.only(top: 8), child: genreItems);
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Wrap(
+        children: genreItems,
+      ),
+    );
   }
 
   @override
@@ -286,6 +283,7 @@ class _MovieItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4, top: 4),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           poster,
           Flexible(child: details),
@@ -299,7 +297,7 @@ class _MovieItem extends StatelessWidget {
 class Likes extends StatefulWidget {
   /// Constructs a new [Likes] instance with a given [DocumentReference] and
   /// current like count.
-  const Likes({
+  Likes({
     Key? key,
     required this.reference,
     required this.currentLikes,
@@ -383,3 +381,59 @@ class _LikesState extends State<Likes> {
     );
   }
 }
+
+@immutable
+class Movie {
+  Movie({
+    required this.genre,
+    required this.likes,
+    required this.poster,
+    required this.rated,
+    required this.runtime,
+    required this.title,
+    required this.year,
+  });
+
+  Movie.fromJson(Map<String, Object?> json)
+      : this(
+          genre: (json['genre']! as List).cast<String>(),
+          likes: json['likes']! as int,
+          poster: json['poster']! as String,
+          rated: json['rated']! as String,
+          runtime: json['runtime']! as String,
+          title: json['title']! as String,
+          year: json['year']! as int,
+        );
+
+  final String poster;
+  final int likes;
+  final String title;
+  final int year;
+  final String runtime;
+  final String rated;
+  final List<String> genre;
+
+  Map<String, Object?> toJson() {
+    return {
+      'genre': genre,
+      'likes': likes,
+      'poster': poster,
+      'rated': rated,
+      'runtime': runtime,
+      'title': title,
+      'year': year,
+    };
+  }
+}
+
+const defaultFirebaseOptions = const FirebaseOptions(
+  apiKey: 'AIzaSyB7wZb2tO1-Fs6GbDADUSTs2Qs3w08Hovw',
+  appId: '1:406099696497:web:87e25e51afe982cd3574d0',
+  messagingSenderId: '406099696497',
+  projectId: 'flutterfire-e2e-tests',
+  authDomain: 'flutterfire-e2e-tests.firebaseapp.com',
+  databaseURL:
+      'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
+  storageBucket: 'flutterfire-e2e-tests.appspot.com',
+  measurementId: 'G-JN95N1JV2E',
+);
