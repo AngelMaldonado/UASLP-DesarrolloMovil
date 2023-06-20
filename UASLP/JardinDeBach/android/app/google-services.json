@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "913925482531",
+    "project_id": "jardin-de-bach",
+    "storage_bucket": "jardin-de-bach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913925482531:android:f85fe8e11473c995e66996",
+        "android_client_info": {
+          "package_name": "com.uaslp.jardindebach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913925482531-ps0deepmvknq3fr8lf7k1je36oq57api.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA2v97QCbUaAAcQ3vFmMSewURs8b34xEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913925482531-ps0deepmvknq3fr8lf7k1je36oq57api.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

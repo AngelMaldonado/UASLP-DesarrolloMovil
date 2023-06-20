@@ -11,7 +11,13 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: appName,
       theme: Themes.appThemeLight(),
-      home: const Home(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Home(tabIndex: 0),
+        '/flowers': (context) => const Home(tabIndex: 0),
+        '/diagnose': (context) => const Home(tabIndex: 1),
+        '/history': (context) => const Home(tabIndex: 2),
+      },
     );
   }
 }

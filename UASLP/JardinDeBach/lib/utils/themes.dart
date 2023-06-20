@@ -7,24 +7,28 @@ class Themes {
       colorScheme: ColorScheme.fromSwatch().copyWith(
         brightness: Brightness.light,
         primary: primary100,
-        inversePrimary: primary10,
-        secondary: primary50,
+        secondary: secondary,
         tertiary: highlight,
-        background: primary50,
-        onBackground: primary50,
       ),
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        titleTextStyle: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
+      appBarTheme: const AppBarTheme(),
       textTheme: const TextTheme(
-        headlineLarge: TextStyle(color: Colors.blue),
+        headlineLarge: TextStyle(fontSize: 28, color: Colors.white),
+        headlineMedium: TextStyle(fontSize: 20, color: Colors.white),
+        headlineSmall: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: primary50,
+        backgroundColor: primary100,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: primary10,
+      ),
+      chipTheme: const ChipThemeData(
+        backgroundColor: primary5,
+        labelStyle: TextStyle(color: primary100),
       ),
     );
   }
