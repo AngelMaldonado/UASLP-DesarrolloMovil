@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:jardindebach/services/firebase_service.dart';
 import 'package:jardindebach/widgets/card_flower.dart';
 import '../models/flower.dart';
 import '../utils/constants.dart';
 
-class FlowersList extends StatefulWidget {
-  const FlowersList({super.key});
+class FlowersList extends StatelessWidget {
+  final Future<List<Flower>?> flowers;
 
-  @override
-  State<FlowersList> createState() => _FlowersListState();
-}
-
-class _FlowersListState extends State<FlowersList> {
-  Future<List<Flower>>? _flowers;
-
-  @override
-  void initState() {
-    super.initState();
-    _flowers = getFlowers();
-  }
+  const FlowersList({super.key, required this.flowers});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _flowers,
+      future: flowers,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.separated(

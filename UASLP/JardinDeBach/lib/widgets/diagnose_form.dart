@@ -6,38 +6,30 @@ import 'package:multiselect/multiselect.dart';
 import '../models/flower.dart';
 
 class DiagnoseForm extends StatefulWidget {
-  const DiagnoseForm({super.key});
+  final List<Flower> flowers;
+  const DiagnoseForm({super.key, required this.flowers});
 
   @override
   State<DiagnoseForm> createState() => _DiagnoseFormState();
 }
 
 class _DiagnoseFormState extends State<DiagnoseForm> {
-  Future<List<Flower>>? _flowers;
-  List<String> _selectedMiedo = [];
-  List<String> _selectedIncertidumbre = [];
-  List<String> _selectedSensibilidad = [];
-  List<String> _selectedInteres = [];
-  List<String> _selectedPreocupacion = [];
-  List<String> _selectedSoledad = [];
-  List<String> _selectedTristeza = [];
+  List<String> _selections = [];
+
   static const snackOverflow =
       SnackBar(content: Text('No se pueden seleccionar más de 7'));
 
   static const snackZero =
       SnackBar(content: Text('No se ha seleccionado ninguna emoción'));
 
-  @override
-  void initState() {
-    super.initState();
-    _flowers = getFlowers();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Form(
+    return Center();
+  }
+}
+
+/*
+Form(
       child: FutureBuilder(
-        future: _flowers,
         builder: (context, AsyncSnapshot<List<Flower>> snapshot) {
           if (snapshot.hasData) {
             List<Flower> flowers = snapshot.data!.toList();
@@ -207,5 +199,4 @@ class _DiagnoseFormState extends State<DiagnoseForm> {
         },
       ),
     );
-  }
-}
+*/
