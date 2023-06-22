@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jardindebach/screens/diagnose_result.dart';
-import 'package:jardindebach/services/firebase_service.dart';
-import 'package:multiselect/multiselect.dart';
 
 import '../models/flower.dart';
 
