@@ -19,4 +19,12 @@ class Flower {
     this.image,
     this.imageColors,
   );
+
+  static List<String> getUniqueTreatedEmotions(List<Flower> flowers) {
+    Set<String> uniqueTreatedEmotions = <String>{};
+    for (Flower flower in flowers) {
+      uniqueTreatedEmotions.add(flower.treats);
+    }
+    return uniqueTreatedEmotions.toList();
+  }
 }

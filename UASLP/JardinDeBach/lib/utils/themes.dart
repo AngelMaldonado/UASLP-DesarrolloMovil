@@ -30,6 +30,18 @@ class Themes {
         backgroundColor: primary5,
         labelStyle: TextStyle(color: primary100),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: const MaterialStatePropertyAll(
+            TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(Material.defaultSplashRadius),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

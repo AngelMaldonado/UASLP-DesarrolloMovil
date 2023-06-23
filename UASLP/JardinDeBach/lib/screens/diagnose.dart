@@ -15,7 +15,48 @@ class Diagnose extends StatefulWidget {
 }
 
 class _DiagnoseState extends State<Diagnose> {
-  List<String> attributes = [];
+  List<Flower> flowerAttributesSelections = [];
+  List<String> treatedEmotionsLegends = [
+    'Afronta tus miedos',
+    'Conoce tu propia mente',
+    'Siéntete firme',
+    'Vive el día a día',
+    'Vive y deja vivir',
+    'Llega a los demás',
+    'Encuentra felicidad y esperanza',
+  ];
+
+  int toggleAttribute(Flower attribute) {
+    setState(() {
+      flowerAttributesSelections.contains(attribute)
+          ? flowerAttributesSelections.remove(attribute)
+          : flowerAttributesSelections.add(attribute);
+    });
+    return flowerAttributesSelections.length;
+  }
+
+  List<Widget> generateCarouselCards(List<Flower> flowers) {
+    Map<String, String> emotionsMap = Map<String, String>.fromIterables(
+        Flower.getUniqueTreatedEmotions(flowers), treatedEmotionsLegends);
+    List<Widget> carouselCards = <Widget>[];
+    List<Flower> cardFlowers = <Flower>[];
+    int index = -1;
+
+    emotionsMap.forEach((emotion, legend) {
+      index = emotionsMap.values.toList().indexOf(legend);
+      cardFlowers =
+          flowers.where((flower) => flower.treats == emotion).toList();
+      carouselCards.add(
+        EmotionCard(
+          legend: legend,
+          image: AssetImage('assets/img/emotion-$index.jpg'),
+          flowers: cardFlowers,
+          onSelectionClick: toggleAttribute,
+        ),
+      );
+    });
+    return carouselCards;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +70,7 @@ class _DiagnoseState extends State<Diagnose> {
               Padding(
                 padding: const EdgeInsets.all(mainPadding),
                 child: Text(
-                  'Seleccione de 1 a 7 atributos de una o más tarjetas',
+                  'Seleccione de 1 a 7 atributos de una o más categorías',
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium
@@ -39,37 +80,17 @@ class _DiagnoseState extends State<Diagnose> {
               CarouselSlider(
                 options: CarouselOptions(
                     height: MediaQuery.of(context).size.height * 0.6),
-                items: [
-                  'Afronta tus miedos',
-                  'Conoce tu propia mente',
-                  'Siéntete firme',
-                  'Vive el día a día',
-                  'Vive y deja vivir',
-                  'Entiende a los demás',
-                  'Encuentra felicidad y esperanza',
-                ]
-                    .asMap()
-                    .map(
-                      (key, value) => MapEntry(
-                        key,
-                        EmotionCard(
-                          legend: value,
-                          image: AssetImage('assets/img/emotion-$key.jpg'),
-                        ),
-                      ),
-                    )
-                    .values
-                    .toList(),
+                items: generateCarouselCards(snapshot.data!),
               ),
               Padding(
                 padding: const EdgeInsets.all(mainPadding),
                 child: ElevatedButton(
                   onPressed: () {},
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Crear diagnóstico'),
-                      Chip(label: Text('Selecciones: ')),
+                      const Text('Crear diagnóstico'),
+                      Chip(label: Text('${flowerAttributesSelections.length}')),
                     ],
                   ),
                 ),
