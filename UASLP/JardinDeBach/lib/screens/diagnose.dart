@@ -1,7 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:jardindebach/utils/constants.dart';
-import 'package:jardindebach/widgets/emotion_card.dart';
+import 'package:jardindebach/widgets/diagnose_carousel.dart';
 
 import '../models/flower.dart';
 
@@ -15,47 +14,12 @@ class Diagnose extends StatefulWidget {
 }
 
 class _DiagnoseState extends State<Diagnose> {
-  List<Flower> flowerAttributesSelections = [];
-  List<String> treatedEmotionsLegends = [
-    'Afronta tus miedos',
-    'Conoce tu propia mente',
-    'Siéntete firme',
-    'Vive el día a día',
-    'Vive y deja vivir',
-    'Llega a los demás',
-    'Encuentra felicidad y esperanza',
-  ];
+  Map<Flower, bool> flowerSelections = {};
 
-  int toggleAttribute(Flower attribute) {
+  void flowerToggle(Flower flower) {
     setState(() {
-      flowerAttributesSelections.contains(attribute)
-          ? flowerAttributesSelections.remove(attribute)
-          : flowerAttributesSelections.add(attribute);
+      //flowerSelections[flower] = flowerSelections[flower] ? true : false;
     });
-    return flowerAttributesSelections.length;
-  }
-
-  List<Widget> generateCarouselCards(List<Flower> flowers) {
-    Map<String, String> emotionsMap = Map<String, String>.fromIterables(
-        Flower.getUniqueTreatedEmotions(flowers), treatedEmotionsLegends);
-    List<Widget> carouselCards = <Widget>[];
-    List<Flower> cardFlowers = <Flower>[];
-    int index = -1;
-
-    emotionsMap.forEach((emotion, legend) {
-      index = emotionsMap.values.toList().indexOf(legend);
-      cardFlowers =
-          flowers.where((flower) => flower.treats == emotion).toList();
-      carouselCards.add(
-        EmotionCard(
-          legend: legend,
-          image: AssetImage('assets/img/emotion-$index.jpg'),
-          flowers: cardFlowers,
-          onSelectionClick: toggleAttribute,
-        ),
-      );
-    });
-    return carouselCards;
   }
 
   @override
@@ -64,6 +28,7 @@ class _DiagnoseState extends State<Diagnose> {
       future: widget.flowers,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          flowerSelections = {for (var flower in snapshot.data!) flower: false};
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -77,10 +42,9 @@ class _DiagnoseState extends State<Diagnose> {
                       ?.copyWith(color: Colors.black),
                 ),
               ),
-              CarouselSlider(
-                options: CarouselOptions(
-                    height: MediaQuery.of(context).size.height * 0.6),
-                items: generateCarouselCards(snapshot.data!),
+              DiagnoseCarousel(
+                selections: flowerSelections,
+                notifyParent: flowerToggle,
               ),
               Padding(
                 padding: const EdgeInsets.all(mainPadding),
@@ -90,7 +54,11 @@ class _DiagnoseState extends State<Diagnose> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const Text('Crear diagnóstico'),
-                      Chip(label: Text('${flowerAttributesSelections.length}')),
+                      Chip(
+                        label: Text(
+                          '${flowerSelections.values.where((chk) => chk).length}',
+                        ),
+                      ),
                     ],
                   ),
                 ),

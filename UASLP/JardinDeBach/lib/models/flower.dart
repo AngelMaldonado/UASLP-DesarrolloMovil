@@ -21,10 +21,7 @@ class Flower {
   );
 
   static List<String> getUniqueTreatedEmotions(List<Flower> flowers) {
-    Set<String> uniqueTreatedEmotions = <String>{};
-    for (Flower flower in flowers) {
-      uniqueTreatedEmotions.add(flower.treats);
-    }
-    return uniqueTreatedEmotions.toList();
+    Set<String> emotions = Set.from(flowers.map((f) => f.treats).toList());
+    return emotions.toList();
   }
 }

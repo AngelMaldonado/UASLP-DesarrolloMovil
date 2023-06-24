@@ -7,25 +7,24 @@ import '../utils/constants.dart';
 class EmotionCard extends StatefulWidget {
   final AssetImage image;
   final String legend;
-  final List<Flower> flowers;
-  final int Function(Flower) onSelectionClick;
+  final void Function(Flower) notifyParent;
+  final Map<Flower, bool> selections;
 
-  const EmotionCard(
-      {super.key,
-      required this.legend,
-      required this.image,
-      required this.flowers,
-      required this.onSelectionClick});
+  const EmotionCard({
+    super.key,
+    required this.legend,
+    required this.image,
+    required this.selections,
+    required this.notifyParent,
+  });
 
   @override
   State<EmotionCard> createState() => _EmotionCardState();
 }
 
 class _EmotionCardState extends State<EmotionCard> {
-  int _selectedModalOptions = 0;
-
-  void modalOptionToggle(Flower option) {
-    setState(() => _selectedModalOptions = widget.onSelectionClick(option));
+  int countSelectedCardOptions() {
+    return widget.selections.values.where((check) => check == true).length;
   }
 
   @override
@@ -36,9 +35,11 @@ class _EmotionCardState extends State<EmotionCard> {
             context: context,
             builder: (context) {
               return EmotionCardModal(
-                flowers: widget.flowers,
-                onSelectionClick: modalOptionToggle,
-              );
+                  selections: widget.selections,
+                  notifyParent: widget.notifyParent,
+                  onSelectionClick: () {
+                    setState(() {});
+                  });
             });
       },
       child: Container(
@@ -65,10 +66,10 @@ class _EmotionCardState extends State<EmotionCard> {
               child: Text(widget.legend, textAlign: TextAlign.center),
             ),
             Visibility(
-              visible: _selectedModalOptions > 0 ? true : false,
+              visible: countSelectedCardOptions() > 0 ? true : false,
               child: Align(
                 alignment: Alignment.topRight,
-                child: Chip(label: Text('$_selectedModalOptions')),
+                child: Chip(label: Text('${countSelectedCardOptions()}')),
               ),
             ),
           ],
