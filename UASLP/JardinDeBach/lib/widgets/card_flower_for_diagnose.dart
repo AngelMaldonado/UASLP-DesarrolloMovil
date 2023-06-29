@@ -18,7 +18,7 @@ class CardFlowerForDiagnose extends StatefulWidget {
 class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
   bool _selected = false;
 
-  void toggleClick() {
+  void toggleFlower() {
     setState(() {
       _selected = _selected ? false : true;
       widget.toggleFlower(widget.flower);
@@ -35,8 +35,25 @@ class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
               builder: (context) => FlowerView(flower: widget.flower)),
         );
       },
-      child: Card(
-        color: _selected ? primary10 : Colors.white,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.symmetric(horizontal: mainPadding),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/img/${widget.flower.name}.jpg'),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+  }
+}
+
+
+/*
+Card(
+        color: _selected ? primary10 : primary50,
         elevation: _selected ? 8 : null,
         clipBehavior: Clip.hardEdge,
         child: Column(
@@ -45,9 +62,9 @@ class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
             Stack(
               fit: StackFit.passthrough,
               children: <Widget>[
-                Image.asset(
-                  'assets/img/${widget.flower.name}.jpg',
-                  height: 200,
+                Ink.image(
+                  image: widget.flower.image,
+                  height: MediaQuery.of(context).size.height / 4,
                   fit: BoxFit.cover,
                 ),
                 Container(
@@ -56,60 +73,41 @@ class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
                   child: Text(
                     widget.flower.name,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 20),
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              padding: const EdgeInsets.all(mainPadding),
+              child: Column(
                 children: <Widget>[
-                  const Text(
-                    'Te ayuda con: ',
-                    textAlign: TextAlign.end,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      const Text('Trata: ', textAlign: TextAlign.end),
+                      Chip(label: Text(widget.flower.treats)),
+                    ],
                   ),
-                  Chip(
-                    label: Text(widget.flower.treats),
-                    padding: const EdgeInsets.all(0.5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      const Text('Concede: ', textAlign: TextAlign.end),
+                      Chip(label: Text(widget.flower.gives)),
+                    ],
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50)),
+                    onPressed: () {
+                      toggleFlower();
+                    },
+                    child: const Text('Elegir flor'),
                   ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  const Text('Te otorga: '),
-                  Chip(
-                    label: Text(widget.flower.gives),
-                    padding: const EdgeInsets.all(0.5),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50)),
-                onPressed: () {
-                  toggleClick();
-                },
-                child: const Text(
-                  'Elegir flor',
-                  style: TextStyle(fontSize: 20),
-                ),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
+ */

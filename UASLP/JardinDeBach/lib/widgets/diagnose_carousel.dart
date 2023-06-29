@@ -5,12 +5,12 @@ import 'package:jardindebach/widgets/emotion_card.dart';
 import '../models/flower.dart';
 
 class DiagnoseCarousel extends StatefulWidget {
-  final Map<Flower, bool> selections;
+  final List<Flower> flowers;
   final void Function(Flower) notifyParent;
 
   const DiagnoseCarousel({
     super.key,
-    required this.selections,
+    required this.flowers,
     required this.notifyParent,
   });
 
@@ -31,16 +31,15 @@ class _DiagnoseCarouselState extends State<DiagnoseCarousel> {
   List<EmotionCard> emotionCards = [];
 
   List<EmotionCard> generateEmotionCards() {
-    List<String> emotions =
-        Flower.getUniqueTreatedEmotions(widget.selections.keys.toList());
+    List<String> emotions = Flower.getUniqueTreatedEmotions(widget.flowers);
     Map<Flower, bool> cardSelections = {};
     List<EmotionCard> carouselCards = <EmotionCard>[];
     for (int index = 0; index < emotions.length - 1; index++) {
       cardSelections = {
-        for (Flower flower in widget.selections.keys.where((flower) {
+        for (Flower flower in widget.flowers.where((flower) {
           return flower.treats == emotions[index];
         }))
-          flower: widget.selections[flower]!
+          flower: false
       };
       carouselCards.add(
         EmotionCard(
@@ -63,8 +62,9 @@ class _DiagnoseCarouselState extends State<DiagnoseCarousel> {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      options:
-          CarouselOptions(height: MediaQuery.of(context).size.height * 0.6),
+      options: CarouselOptions(
+        height: MediaQuery.of(context).size.height * 0.6,
+      ),
       items: emotionCards,
     );
   }

@@ -23,7 +23,7 @@ class _EmotionCardModalState extends State<EmotionCardModal> {
     setState(() {
       widget.onSelectionClick();
       widget.notifyParent(flower);
-      widget.selections[flower] = widget.selections[flower]! ? false : true;
+      widget.selections.update(flower, (checked) => checked ? false : true);
     });
   }
 
