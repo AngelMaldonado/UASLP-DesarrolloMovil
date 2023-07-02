@@ -17,11 +17,6 @@ class _DiagnoseViewState extends State<DiagnoseView> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  static const snackNoName = SnackBar(content: Text('Ingrese el nombre'));
-
-  static const snackNoDescription =
-      SnackBar(content: Text('Ingrese una descripción'));
-
   @override
   void initState() {
     super.initState();

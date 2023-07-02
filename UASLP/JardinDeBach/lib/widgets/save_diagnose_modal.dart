@@ -93,10 +93,7 @@ class _SaveDiagnoseModalState extends State<SaveDiagnoseModal> {
                             _nameController.text))
                         .then(
                       (_) => Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/',
-                        (route) => route.settings.name == '/',
-                      ),
+                          context, '/', (_) => false),
                     );
                   }
                 },

@@ -23,7 +23,6 @@ class _DiagnoseResultCarouselState extends State<DiagnoseResultCarousel> {
   final List<CardFlowerForDiagnose> _flowerCards = <CardFlowerForDiagnose>[];
 
   void toggleSelection(Flower flower) {
-    print('hola');
     setState(() {
       widget.notifyParent(flower);
     });

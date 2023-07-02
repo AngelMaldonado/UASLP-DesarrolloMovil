@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
     _flowers = getFlowers();
     _widgetOptions.add(FlowersList(flowers: _flowers!));
     _widgetOptions.add(Diagnose(flowers: _flowers!));
+    _widgetOptions.add(const DiagnoseHistory());
     setTab(widget.tabIndex);
     super.initState();
   }
