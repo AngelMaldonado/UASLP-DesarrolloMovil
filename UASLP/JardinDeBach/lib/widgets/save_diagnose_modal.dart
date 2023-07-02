@@ -91,8 +91,13 @@ class _SaveDiagnoseModalState extends State<SaveDiagnoseModal> {
                             _descriptionController.text,
                             widget.selectedFlowers,
                             _nameController.text))
-                        .then((_) => Navigator.popUntil(
-                            context, (route) => route.isFirst));
+                        .then(
+                      (_) => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/',
+                        (route) => route.settings.name == '/',
+                      ),
+                    );
                   }
                 },
                 child: const Text('Guardar'))
