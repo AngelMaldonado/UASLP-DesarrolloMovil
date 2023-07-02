@@ -5,24 +5,30 @@ import '../models/flower.dart';
 import '../screens/flower_view.dart';
 
 class CardFlowerForDiagnose extends StatefulWidget {
-  final Function(Flower flower) toggleFlower;
+  final void Function(Flower) toggleFlower;
   final Flower flower;
+  final Map<Flower, bool> flowerSelections;
 
-  const CardFlowerForDiagnose(
-      {super.key, required this.flower, required this.toggleFlower});
+  const CardFlowerForDiagnose({
+    super.key,
+    required this.toggleFlower,
+    required this.flower,
+    required this.flowerSelections,
+  });
 
   @override
   State<CardFlowerForDiagnose> createState() => _CardFlowerForDiagnoseState();
 }
 
 class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
-  bool _selected = false;
-
-  void toggleFlower() {
+  void toggleSelection() {
     setState(() {
-      _selected = _selected ? false : true;
-      widget.toggleFlower(widget.flower);
+      widget.flowerSelections.update(
+        widget.flower,
+        (chk) => chk ? false : true,
+      );
     });
+    widget.toggleFlower(widget.flower);
   }
 
   @override
@@ -32,10 +38,12 @@ class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => FlowerView(flower: widget.flower)),
+            builder: (context) => FlowerView(flower: widget.flower),
+          ),
         );
       },
       child: Container(
+        clipBehavior: Clip.hardEdge,
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.symmetric(horizontal: mainPadding),
         decoration: BoxDecoration(
@@ -45,69 +53,60 @@ class _CardFlowerForDiagnoseState extends State<CardFlowerForDiagnose> {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-      ),
-    );
-  }
-}
-
-
-/*
-Card(
-        color: _selected ? primary10 : primary50,
-        elevation: _selected ? 8 : null,
-        clipBehavior: Clip.hardEdge,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Stack(
-              fit: StackFit.passthrough,
-              children: <Widget>[
-                Ink.image(
-                  image: widget.flower.image,
-                  height: MediaQuery.of(context).size.height / 4,
-                  fit: BoxFit.cover,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(mainPadding),
-                  color: primary100opacity,
-                  child: Text(
-                    widget.flower.name,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: double.infinity,
               padding: const EdgeInsets.all(mainPadding),
+              color: widget.flowerSelections[widget.flower]!
+                  ? primary5opacity
+                  : primary50opacity,
+              child: Text(
+                widget.flower.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      color: widget.flowerSelections[widget.flower]!
+                          ? primary100
+                          : Colors.white,
+                    ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(mainPadding),
+              color: widget.flowerSelections[widget.flower]!
+                  ? primary5opacity
+                  : primary50opacity,
               child: Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      const Text('Trata: ', textAlign: TextAlign.end),
-                      Chip(label: Text(widget.flower.treats)),
-                    ],
+                  Chip(label: Text('Concede: ${widget.flower.gives}')),
+                  Chip(
+                    label: Text('Trata: ${widget.flower.treats}'),
+                    labelStyle: const TextStyle(color: primary5),
+                    backgroundColor: primary50,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      const Text('Concede: ', textAlign: TextAlign.end),
-                      Chip(label: Text(widget.flower.gives)),
-                    ],
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    onPressed: () {
-                      toggleFlower();
-                    },
-                    child: const Text('Elegir flor'),
-                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: widget.flowerSelections[widget.flower]!
+                          ? const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(highlight),
+                            )
+                          : Theme.of(context).elevatedButtonTheme.style,
+                      onPressed: () => toggleSelection(),
+                      child: widget.flowerSelections[widget.flower]!
+                          ? const Text('Quitar')
+                          : const Text('Agregar'),
+                    ),
+                  )
                 ],
               ),
             ),
           ],
         ),
       ),
- */
+    );
+  }
+}

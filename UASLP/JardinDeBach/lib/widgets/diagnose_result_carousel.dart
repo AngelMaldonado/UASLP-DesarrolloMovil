@@ -19,18 +19,27 @@ class DiagnoseResultCarousel extends StatefulWidget {
 }
 
 class _DiagnoseResultCarouselState extends State<DiagnoseResultCarousel> {
+  Map<Flower, bool> _flowerSelections = {};
   final List<CardFlowerForDiagnose> _flowerCards = <CardFlowerForDiagnose>[];
+
+  void toggleSelection(Flower flower) {
+    print('hola');
+    setState(() {
+      widget.notifyParent(flower);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _flowerSelections = {
+      for (Flower flower in widget.selections) flower: false
+    };
     for (Flower flower in widget.selections) {
-      _flowerCards.add(
-        CardFlowerForDiagnose(
+      _flowerCards.add(CardFlowerForDiagnose(
+          toggleFlower: toggleSelection,
           flower: flower,
-          toggleFlower: widget.notifyParent,
-        ),
-      );
+          flowerSelections: _flowerSelections));
     }
   }
 
