@@ -87,11 +87,12 @@ class _SaveDiagnoseModalState extends State<SaveDiagnoseModal> {
                     setEmptinessFields(true);
                   } else {
                     createDiagnose(Diagnose(
-                            DateTime.now(),
-                            _descriptionController.text,
-                            widget.selectedFlowers,
-                            _nameController.text))
-                        .then(
+                      DateTime.now(),
+                      _descriptionController.text,
+                      widget.selectedFlowers,
+                      _nameController.text,
+                      '',
+                    )).then(
                       (_) => Navigator.pushNamedAndRemoveUntil(
                           context, '/', (_) => false),
                     );

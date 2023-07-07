@@ -71,15 +71,6 @@ class _DiagnoseResultState extends State<DiagnoseResult> {
                       selectedFlowers: _selectedFlowers,
                     ),
                   );
-                  /*
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DiagnoseResult(selections: _selections),
-                    ),
-                  );
-                   */
                 }
               },
               child: Row(

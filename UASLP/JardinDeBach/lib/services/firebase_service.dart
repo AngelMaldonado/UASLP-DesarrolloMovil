@@ -69,11 +69,11 @@ Future<List<Diagnose>> getDiagnoses() async {
   for (var document in query.docs) {
     timestamp = document.get('date');
     diagnoses.add(Diagnose(
-      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch),
-      document.get('description'),
-      await getFlowersByNames(List<String>.from(document.get('flowers'))),
-      document.get('name'),
-    ));
+        DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch),
+        document.get('description'),
+        await getFlowersByNames(List<String>.from(document.get('flowers'))),
+        document.get('name'),
+        document.id));
   }
   return diagnoses;
 }
@@ -102,4 +102,18 @@ Future<List<Flower>> getFlowersByNames(List<String> names) async {
 
 Future<void> createDiagnose(Diagnose newDiagnose) async {
   await db.collection('diagnoses').add(newDiagnose.toJson());
+}
+
+void deleteDiagnose(Diagnose diagnose) async {
+  await db.collection('diagnoses').doc(diagnose.id).delete();
+}
+
+void updateDiagnose(Diagnose diagnose) async {
+  await db.collection('diagnoses').doc(diagnose.id).update(
+    {
+      'date': DateTime.now(),
+      'description': diagnose.description,
+      'name': diagnose.name,
+    },
+  );
 }

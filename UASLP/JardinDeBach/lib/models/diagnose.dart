@@ -1,14 +1,16 @@
 import 'flower.dart';
 
 class Diagnose {
+  final String id;
   final DateTime date;
-  final String description;
+  String description;
   final List<Flower> flowers;
-  final String name;
+  String name;
 
-  Diagnose(this.date, this.description, this.flowers, this.name);
+  Diagnose(this.date, this.description, this.flowers, this.name, this.id);
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'date': date,
         'description': description,
         'flowers': flowers.map((flower) => flower.name).toList(),
