@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/flower.dart';
+import '../utils/colors.dart';
 
 class EmotionCardModal extends StatefulWidget {
   final Map<Flower, bool> selections;
@@ -32,7 +33,7 @@ class _EmotionCardModalState extends State<EmotionCardModal> {
       return CheckboxListTile(
         title: Text(flower.phrase),
         value: widget.selections[flower],
-        activeColor: Colors.pink,
+        activeColor: primary100,
         checkColor: Colors.white,
         onChanged: (_) => toggleCheckBox(flower),
       );

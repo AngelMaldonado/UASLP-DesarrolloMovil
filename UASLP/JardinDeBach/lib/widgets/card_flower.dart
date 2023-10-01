@@ -29,7 +29,7 @@ class CardFlower extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: mainPadding * 2),
+              padding: const EdgeInsets.symmetric(horizontal: mainPadding),
               color: primary50opacity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -34,51 +34,53 @@ class _DiagnoseState extends State<Diagnose> {
       future: widget.flowers,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(mainPadding),
-                child: Text(
-                  'Seleccione de 1 a 7 atributos de una o más categorías',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: Colors.black),
-                ),
-              ),
-              DiagnoseCarousel(
-                flowers: snapshot.data!,
-                notifyParent: flowerToggle,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(mainPadding),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_selections.length > 7) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        _snackOverflow,
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DiagnoseResult(selections: _selections),
-                        ),
-                      );
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text('Crear diagnóstico'),
-                      Chip(label: Text('${_selections.length}')),
-                    ],
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(mainPadding),
+                  child: Text(
+                    'Seleccione de 1 a 7 atributos de una o más categorías',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(color: Colors.black),
                   ),
                 ),
-              ),
-            ],
+                DiagnoseCarousel(
+                  flowers: snapshot.data!,
+                  notifyParent: flowerToggle,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(mainPadding),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_selections.length > 7) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          _snackOverflow,
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DiagnoseResult(selections: _selections),
+                          ),
+                        );
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text('Crear diagnóstico'),
+                        Chip(label: Text('${_selections.length}')),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         } else {
           return const Center(child: CircularProgressIndicator());

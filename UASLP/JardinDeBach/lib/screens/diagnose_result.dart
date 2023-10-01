@@ -41,48 +41,50 @@ class _DiagnoseResultState extends State<DiagnoseResult> {
       appBar: AppBar(
         title: const Text('Nuevo diagnóstico'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(mainPadding),
-            child: Text(
-              'Eliga 1 o más flores para guardar su diagnóstico:',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: Colors.black),
-            ),
-          ),
-          DiagnoseResultCarousel(
-            selections: widget.selections,
-            notifyParent: toggleFlower,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(mainPadding),
-            child: ElevatedButton(
-              onPressed: () {
-                if (_selectedFlowers.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(snackNoFlowers);
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => SaveDiagnoseModal(
-                      selectedFlowers: _selectedFlowers,
-                    ),
-                  );
-                }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text('Guardar diagnóstico'),
-                  Chip(label: Text('${_selectedFlowers.length}')),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(mainPadding),
+              child: Text(
+                'Eliga 1 o más flores para guardar su diagnóstico:',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: Colors.black),
               ),
             ),
-          ),
-        ],
+            DiagnoseResultCarousel(
+              selections: widget.selections,
+              notifyParent: toggleFlower,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(mainPadding),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_selectedFlowers.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(snackNoFlowers);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SaveDiagnoseModal(
+                        selectedFlowers: _selectedFlowers,
+                      ),
+                    );
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('Guardar diagnóstico'),
+                    Chip(label: Text('${_selectedFlowers.length}')),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
